@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hello-configmap
+data: 
+  index.html: |
+    <html>
+    <body>
+    <h1>Welcome</h1>
+    <P>{{ .Values.content }}</P>
+    </body>
+    </html>
