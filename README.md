@@ -4,33 +4,35 @@ Catalog of LFedge demos and stacks.
 
 Original idea documented [on LFEdge wiki](https://wiki.lfedge.org/display/LE/LF+Edge+Catalog)
 
-_NOTE: This is a work in progress_
-
-## Tutorials
+## Tutorial
 
 We are currently exploring two different modes of deployment, helm charts for kubernetes based deployments and docker-compose for container based deployments
+
 ### Getting Started
 
 If you don't already have a kubernetes cluster, we suggest installing Docker Desktop which seems to provide the easiest and most uniform environment across Mac, Windows, and Linux.
 
-1. Go to https://www.docker.com/products/docker-desktop/ and install docker desktop for your platform
-2. Once it is installed, open it's preferences and enable Kubernetes support: 
+- Go to <https://www.docker.com/products/docker-desktop/> and install docker desktop for your platform
+- Once it is installed, open it's preferences and enable Kubernetes support:
 
 ![Docker Preferences Pane](files/docker-pref.png)
 
-3. Wait for kubernetes to install and come up, the kubernetes icon on the bottom of the Docker Desktop should be green
-4. Open a shell to test the kubernetes installation
-5. Verify kubernetes is running and configured properly
-```
+- Wait for kubernetes to install and come up, the kubernetes icon on the bottom of the Docker Desktop should be green
+- Open a shell to test the kubernetes installation
+- Verify kubernetes is running and configured properly:
+
+```console
 $ kubectl cluster-info
 Kubernetes control plane is running at https://kubernetes.docker.internal:6443
 CoreDNS is running at https://kubernetes.docker.internal:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 
-To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+To further debug and diagnose cluster problems, use kubectl cluster-info dump.
 ```
+
 ### Your first helm chart
 
 You can create a simple helm chart using the helm command:
+
 ```console
 $ helm create hello
 Creating hello
@@ -41,6 +43,7 @@ Chart.yaml      charts          templates       values.yaml
 The starter chart is a simple NGINX deployment.  The metadata for the chart is in _Chart.yaml_ with customization variables in _values.yaml_, the underlying templates which will create the kubernetes yaml files are in the _templates_ sub-directory.  For more information on Helm charts, simply read the [documentation](https://helm.sh/docs).
 
 To deploy this simple chart, you need to just provide it a name.  As a convienence we'll customize it from the command line to use the _LoadBalancer_ service.type which makes it easier to access the results from your local web browser.  We could have also made this customization by editing values.yaml.
+
 ```console
 $ helm install --set service.type=LoadBalancer example hello
 NAME: example
@@ -56,11 +59,12 @@ NOTES:
   echo http://$SERVICE_IP:80
 ```
 
-In most cases, SERVICE_IP should just be localhost, so once the helm chart finishes installing you should be able to access the resulting web page by pointing your web browser at http://localhost 
+In most cases, SERVICE_IP should just be localhost, so once the helm chart finishes installing you should be able to access the resulting web page by pointing your web browser at <http://localhost>
 
 ![NGINX in browser](files/nginx-simple.png)
 
 When you are done, you can uninstall the chart via the command line to cleanup:
+
 ```console
 $ helm uninstall example
 release "example" uninstalled
@@ -70,7 +74,7 @@ release "example" uninstalled
 
 If you look at the contents of the simple values.yaml file, you'll see there are quite a few customization options and it can be a bit overwhelming.  What we want to create is a much more approachable configuration by using a simple chart which only allows us to customize the content.  We'll do this by creating a second chart, have it reference the bitnami NGINX chart as a dependency, and then create a template for a configmap to provide the content based on values from _values.yaml_.
 
-1. Create a new starter chart, remove the starter templates and starter values
+- Create a new starter chart, remove the starter templates and starter values
 
 ```console
 $ helm create hello2
@@ -79,7 +83,7 @@ $ rm -rf hello2/templates/*
 $ echo > hello2/values.yaml
 ```
 
-2. specify a dependency on the bitnami NGINX chart and download the packaged version into _charts_
+- specify a dependency on the bitnami NGINX chart and download the packaged version into _charts_
 
 ```console
 $ cat <<EOF >> hello2/Chart.yaml
@@ -99,7 +103,7 @@ Downloading nginx from repo https://charts.bitnami.com/bitnami/nginx
 Deleting outdated charts
 ```
 
-3. Now add a template for the customized content to the templates, and an initial custom value to values.yaml
+- Now add a template for the customized content to the templates, and an initial custom value to values.yaml
 
 ```console
 $ cat <<EOF > hello2/templates/configmap.yaml
@@ -118,7 +122,7 @@ data:
 EOF
 ```
 
-4. Finally customize values.yaml to add the content and configure the NGINX dependency to use that configmap:
+- Finally customize values.yaml to add the content and configure the NGINX dependency to use that configmap:
 
 ```console
 $ cat <<EOF > hello2/values.yaml
@@ -128,7 +132,7 @@ nginx:
 EOF
 ```
 
-5. Try out your new chart
+- Try out your new chart
 
 ```console
 $ helm install --set nginx.service.type=LoadBalancer example hello2
@@ -140,11 +144,11 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-6. Open up your browser again
+- Open up your browser again
 
 ![NGINX Dependency in Browser](files/nginx-depend.png)
 
-7. Update the message from the command line
+- Update the message from the command line
 
 ```console
 $ helm upgrade --set nginx.service.type=LoadBalancer --set content="Hello LFEdge" example hello2
@@ -156,34 +160,37 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-7. Reopen your browser (and beward cached content, you may have to force reload)
-8. For more information on helm tempaltes, follow the [Helm Template Tutorial](https://helm.sh/docs/chart_template_guide/getting_started/)
-9. If you are going to push your package to artifacthub.io (covered later in the tutorial), you should add a README.md to the chart directory and update Chart.yaml with artifact-hub specific metadata.  Its a good idea to provide quickstart instructions, quick configiure instructions, as well as long-form parameter lists in your README.md.
+- Reopen your browser (and beward cached content, you may have to force reload)
+- For more information on helm tempaltes, follow the [Helm Template Tutorial](https://helm.sh/docs/chart_template_guide/getting_started/)
+- If you are going to push your package to artifacthub.io (covered later in the tutorial), you should add a README.md to the chart directory and update Chart.yaml with artifact-hub specific metadata.  Its a good idea to provide quickstart instructions, quick configiure instructions, as well as long-form parameter lists in your README.md.
 
 ### Packaging and Publishing your helm charts
 
 The easiest way to publish helm charts is to use a web site, you can even serve them from a subdirectory of an existing website.
 We'll use a github pages project to serve the pages, but you can easily adapt this technique to another type of web host.
 
-1. Start by packaging the two helm charts we just created 
+- Start by packaging the two helm charts we just created
 
 ```console
 $ helm package hello
 Successfully packaged chart and save
 $ helm package hello2
 ```
+
 (if you have a PGP key, go ahead and sign them by adding --sign)
+
 ```console
 $ helm package --sign --key ericvh@gmail.com --keyring ~/.gnupg/secring.gpg hello
 Password for key "Eric Van Hensbergen <ericvh@gmail.com>" >  
 Successfully packaged chart and saved it to: /Users/erivan01/src/lfedge-catalog-proposal/examples/hello-0.1.0.tgz
 ```
 
-2. Create a new github project, populate it with a default README.md
-3. go back to the github project settings (https://github.com/user/project/settings/pages) and setup pages by selecting the main branch and /root then click save
+- Create a new github project, populate it with a default README.md
+- Go back to the github project settings (<https://github.com/user/project/settings/pages>) and setup pages by selecting the main branch and /root then click save
 
 ![GitHub pages setup](files/github-pages-setup.png)
-4. Checkout the github project to your system and add the packaged charts
+
+- Checkout the github project to your system and add the packaged charts
 
 ```console
 $ git clone git@github.com:ericvh/lfedge-catalog.git # replace with your repo
@@ -196,11 +203,15 @@ Receiving objects: 100% (26/26), 36.98 KiB | 425.00 KiB/s, done.
 Resolving deltas: 100% (1/1), done.
 $ mv *.tgz* lfedge-catalog
 ```
-5. create the index for the packaged charts (creating an index.yaml)
+
+- create the index for the packaged charts (creating an index.yaml)
+
 ```console
-$ helm repo index --url https://ericvh.github.io/lfedge-catalog lfedge-catalog
+helm repo index --url https://ericvh.github.io/lfedge-catalog lfedge-catalog
 ```
-6. add the new files, commit, and push back to gitlab
+
+- add the new files, commit, and push back to gitlab
+
 ```console
 $ cd lfedge-catalog
 $ git add .
@@ -214,11 +225,14 @@ $ git commit -m 'Add charts'
  create mode 100644 index.yaml
 $ git push 
 ```
-7. Wait about a minute and then check to make sure the index.yaml is there: https://ericvh.github.io/lfedge-catalog/index.yaml
+
+- Wait about a minute and then check to make sure the index.yaml is there: <https://ericvh.github.io/lfedge-catalog/index.yaml>
+
 ![GitHub index.yaml](files/index-yaml.png)
 
-8. Its also a good idea to add instructions to your Github pages README.md about how to access the charts:
-````
+- Its also a good idea to add instructions to your Github pages README.md about how to access the charts:
+
+````console
 $ cat <<EOF > README.md
 # lfedge-catalog
 
@@ -243,15 +257,15 @@ To github.com:ericvh/t2.git
    b80030d..b1f9470  main -> main
 ````
 
-9. Any time you update or release your charts, just update the web page by adding to the git repo, re-indexing, and pushing.
+- Any time you update or release your charts, just update the web page by adding to the git repo, re-indexing, and pushing.
+
 ## Adding charts to Artifacthub
 
 Artifacthub acts as an index of many different types of resources including Helm charts.
 
-1. Go to https://artifacthub.io and setup a new user if you don't already have an account
-2. Click on your profile picture in the upper right hand corner and select control panel
-3. Click the Add button to add a new repository
-4. Give your repository a name, and point it at your github page you just created: https://ericvh.github.io/lfedge-catalog
-5. After a period of time (usually 15 minutes to a half an hour, it will scrape your charts and add them), then you can search for your packages and see them in the repo
-6. Follow artifacthub documentation to [add metadata](https://artifacthub.io/docs/topics/annotations/helm/), [prove ownership](https://artifacthub.io/docs/topics/repositories/), and add readme content to your package by including a README.md inside the package directory prior to its packaging.
-
+- Go to <https://artifacthub.io> and setup a new user if you don't already have an account
+- Click on your profile picture in the upper right hand corner and select control panel
+- Click the Add button to add a new repository
+- Give your repository a name, and point it at your github page you just created: <https://ericvh.github.io/lfedge-catalog>
+- After a period of time (usually 15 minutes to a half an hour, it will scrape your charts and add them), then you can search for your packages and see them in the repo
+- Follow artifacthub documentation to [add metadata](https://artifacthub.io/docs/topics/annotations/helm/), [prove ownership](https://artifacthub.io/docs/topics/repositories/), and add readme content to your package by including a README.md inside the package directory prior to its packaging.
