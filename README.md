@@ -232,15 +232,14 @@ $ git push
 
 - Its also a good idea to add instructions to your Github pages README.md about how to access the charts:
 
-````console
+```console
 $ cat <<EOF > README.md
 # lfedge-catalog
 
 To use this catalog:
-```
-helm repo add lfedge https://ericvh.github.io/lfedge-catalog
-helm update
-```
+
+- helm repo add lfedge https://ericvh.github.io/lfedge-catalog
+- helm update
 EOF
 $ git commit -a -m "Update README.md"
 main b1f9470] Update README.md
@@ -255,7 +254,7 @@ Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
 remote: Resolving deltas: 100% (1/1), completed with 1 local object.
 To github.com:ericvh/t2.git
    b80030d..b1f9470  main -> main
-````
+```
 
 - Any time you update or release your charts, just update the web page by adding to the git repo, re-indexing, and pushing.
 
