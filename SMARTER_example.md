@@ -48,8 +48,8 @@ A more extensive [README](https://github.com/smarter-project/documentation/tree/
 
 Terraform executes the following steps:
 
-1. A random poassword is generated that will be used for Grafana admin access and web access to edge installation scripts
-1. An EC2 instance is created and it is allocated an external IPv4 address
+1. A random password is generated that will be used for Grafana admin access and web access to edge installation scripts and it will be printed at end of the terraform script.
+1. An EC2 instance is created and it is allocated an external IPv4 address and the public ipv4 DNS of the instance is printed at end of the terraform script.
 1. The instance executes a cloud-init script provided by terraform. The cloud-init script executes in order:
    1. Install K3s cluster (k3s server and k3s agent) 
    1. Install helm application 
@@ -72,3 +72,6 @@ wget https://k3s-\<EC2 IP address separated by -\>.nip.io/k3s-start.sh.\<random 
 ```
 
 The node will connect automatically to smarter-k3s-edge and will download the smarter-demo and start executing it. 
+
+
+### Helm charts
