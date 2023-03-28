@@ -2,8 +2,6 @@
 
 Catalog of LFedge demos and stacks.
 
-SMARTER example is documented [here](SMARTER_readme.md)
-
 Original idea documented [on LFEdge wiki](https://wiki.lfedge.org/display/LE/LF+Edge+Catalog)
 
 ## Tutorial
