@@ -43,7 +43,7 @@ terraform apply -var "letsencrypt_email=xxxx@yyy.com"
 This command (destroy) removes any objects that terraform has created and it is managing.
 
 ```bash
-terraform destroy
+terraform destroy -var "letsencrypt_email=xxxx@yyy.com"
 ```
 
 A more extensive [README](https://github.com/smarter-project/documentation/tree/main/terraform/README.md) is provided.
