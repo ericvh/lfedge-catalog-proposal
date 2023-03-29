@@ -77,6 +77,8 @@ wget https://k3s-\<EC2 IP address separated by -\>.nip.io/k3s-start.sh.\<random 
 
 The node will connect automatically to smarter-k3s-edge and will download the smarter-demo and start executing it. 
 
+EC2 instance can be accessed by ssh using the generated ssh key (on the ssh directory created by the terraform script). 
+
 ### Helm charts
 
 All SMARTER helm charts are referenced by [ArtifactHUB](https://artifacthub.io/) under [SMARTER publisher](https://artifacthub.io/packages/search?org=smarter).
