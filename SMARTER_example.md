@@ -40,7 +40,6 @@ This command (apply) creates the objects if they do not exist (allocates an EC2 
 ```bash
 terraform apply -var "letsencrypt_email=xxxx@yyy.com"
 ```
-
 This command (destroy) removes any objects that terraform has created and it is managing.
 
 ```bash
@@ -60,6 +59,12 @@ Terraform executes the following steps:
    1. Install helm chart for [smarter-k3s-edge](https://github.com/smarter-project/documentation/tree/main/charts/smarter-k3s-edge). This chart install a K3s server inside the existing k3s cluster that will be the control plane for the edge nodes. 
    1. Install helm chart for [smarter-edge](https://github.com/smarter-project/documentation/tree/main/charts/smarter-edge) on the smarter-k3s-edge (k3s server running inside the k3s cluster). This chart installs: CNI, DNS, smarter-device-manager.
    1. Install helm chart for [smarter-demo](https://github.com/smarter-project/documentation/tree/main/charts/demo) on the smarter-k3s-edge (k3s server running inside the k3s cluster). This chart installs: [fluent-bit](https://github.com/smarter-project/documentation/tree/main/charts/smarter-fluent-bit), [smarter-gstreamer](https://smarter-project.github.io/gstreamer), [smarter-pulseaudio](https://smarter-project.github.io/pulseaudio), [smarter-image-detector](https://smarter-project.github.io/image-detector), [smarter-audio-client](https://smarter-project.github.io/audio-client) and [smarter-inference](https://smarter-project.github.io/smarter-inference).
+
+Please observe that the full installation of k3s, helm charts in the EC2 instance can take up to 15min (expected around 10min) with various parts of the system being available at different times. If it is desired to follow the installation the command below will print the current log and follow it
+
+```bash
+ssh -i ssh/<deployment-name>-prod-k3s.pem ubuntu@<EC2 instance allocated> "tail -f /var/log/cloud-init-output.log"
+```
 
 The following endpoints are available at the end of installation:
 
