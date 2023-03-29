@@ -32,13 +32,13 @@ A single parameter is required, a valid email that will be used for [Let's encry
 The following command tests access and verify which objects needs to be created/modified without creating the objects.
 
 ```bash
-terraform --var "letsencrypt_email=xxxx@yyy.com" plan
+terraform plan -var "letsencrypt_email=xxxx@yyy.com"
 ```
 
 This command (apply) creates the objects if they do not exist (allocates an EC2 instance, etc.) and prepares them accordingly.
 
 ```bash
-terraform --var "letsencrypt_email=xxxx@yyy.com" apply
+terraform apply -var "letsencrypt_email=xxxx@yyy.com"
 ```
 
 This command (destroy) removes any objects that terraform has created and it is managing.
