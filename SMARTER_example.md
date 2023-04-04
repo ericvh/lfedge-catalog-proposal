@@ -12,6 +12,8 @@ SMARTER and all of its components are open source.
 This figure shows the components of the application and where they reside. 
 ![SMARTER](SMARTER_example.png)
 
+The light blue components are control plane for the edge. The pods running at the edge are represented in orange. In SMARTER, edge pods are deployed by DaemonSets gated by labels on each node, each edge node in SMARTER is a kubernetes node where the kubernetes server runs as a pod in the cloud (SMARTER Cloud Service).  Dark blue components runs in the cloud and are deployed in a cloud kubernetes cluster  
+
 ### Getting Started with SMARTER
 
 SMARTER has components running in the cloud and at the edge. Video and audio are processed at the edge. Edge control plane and data aggregators and visualizers run in the cloud.
