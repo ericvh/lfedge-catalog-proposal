@@ -8,8 +8,8 @@ Original idea documented [on LFEdge wiki](https://wiki.lfedge.org/display/LE/LF+
 
 ## Tutorial
 
-We are currently exploring two different modes of deployment, helm charts for kubernetes based deployments and docker-compose for container based deployments
-Terraform is an additional tool that is being evaluated to simplify infrastructure management primarily of cloud resources (AWS, GCE, Azure, etc.)
+In this proposal we explored two different modes of deployment selecting helm charts for kubernetes based deployments as the primary way to deploy applications.
+Terraform is an additional tool that is used to simplify infrastructure management primarily of cloud resources (AWS, GCE, Azure, etc.)
 
 ### Getting Started
 
