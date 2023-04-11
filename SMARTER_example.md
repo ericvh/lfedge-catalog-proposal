@@ -86,11 +86,32 @@ The node will connect automatically to smarter-k3s-edge and will download the sm
 
 EC2 instance can be accessed by ssh using the generated ssh key (on the ssh directory created by the Terraform script). 
 
+When logged at EC2 instance the cloud k3s cluster can be acessed directly, KUBECONFIG variable is already set to the correct value so the following commands ca be used: kubectl and helm. 
+If access to the k3s ege server is desired a k3s.yaml.\<passwid\> file is available at the home directory. 
+
+```bash
+export KUBECONFIG=$(pw)/k3s.yaml.\<passwid\>
+kubectl
+helm
+```
+The edge nodes connect to this k3s edge server and not the to the k3s cloud cluster.
+
 ### Helm charts
 
 All SMARTER helm charts are referenced by [ArtifactHUB](https://artifacthub.io/) under [SMARTER publisher](https://artifacthub.io/packages/search?org=smarter).
 
-They can be installed into a cluster using helm install like the example below with variables set by the "--set" command.
+The command below shows which charts are installed on the machine
+
+```bash
+helm list
+```
+
+The following command shows variables set when the helm chart was installed
+```bash
+helm get all <release-name>
+```
+
+Additional helm charts can be installed into a cluster using helm install like the example below with variables set by the "--set" command.
 
 ```bash
 helm install smarter/smarter-cloud
