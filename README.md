@@ -1,12 +1,15 @@
 # LFEdge Catalog Proposal
 
-Catalog of LFedge demos and stacks.
+Catalog of LFEdge demos and stacks.
+
+SMARTER example is documented [here](SMARTER_example.md)
 
 Original idea documented [on LFEdge wiki](https://wiki.lfedge.org/display/LE/LF+Edge+Catalog)
 
 ## Tutorial
 
-We are currently exploring two different modes of deployment, helm charts for kubernetes based deployments and docker-compose for container based deployments
+In this proposal we explored two different modes of deployment selecting helm charts for kubernetes based deployments as the primary way to deploy applications.
+Terraform is an additional tool that is used to simplify infrastructure management primarily of cloud resources (AWS, GCE, Azure, etc.)
 
 ### Getting Started
 
@@ -42,7 +45,7 @@ Chart.yaml      charts          templates       values.yaml
 
 The starter chart is a simple NGINX deployment.  The metadata for the chart is in _Chart.yaml_ with customization variables in _values.yaml_, the underlying templates which will create the kubernetes yaml files are in the _templates_ sub-directory.  For more information on Helm charts, simply read the [documentation](https://helm.sh/docs).
 
-To deploy this simple chart, you need to just provide it a name.  As a convienence we'll customize it from the command line to use the _LoadBalancer_ service.type which makes it easier to access the results from your local web browser.  We could have also made this customization by editing values.yaml.
+To deploy this simple chart, you need to just provide it a name.  As a convenience we'll customize it from the command line to use the _LoadBalancer_ service.type which makes it easier to access the results from your local web browser.  We could have also made this customization by editing values.yaml.
 
 ```console
 $ helm install --set service.type=LoadBalancer example hello
@@ -160,9 +163,9 @@ REVISION: 1
 TEST SUITE: None
 ```
 
-- Reopen your browser (and beward cached content, you may have to force reload)
-- For more information on helm tempaltes, follow the [Helm Template Tutorial](https://helm.sh/docs/chart_template_guide/getting_started/)
-- If you are going to push your package to artifacthub.io (covered later in the tutorial), you should add a README.md to the chart directory and update Chart.yaml with artifact-hub specific metadata.  Its a good idea to provide quickstart instructions, quick configiure instructions, as well as long-form parameter lists in your README.md.
+- Reopen your browser (and beware cached content, you may have to force reload)
+- For more information on helm templates, follow the [Helm Template Tutorial](https://helm.sh/docs/chart_template_guide/getting_started/)
+- If you are going to push your package to artifacthub.io (covered later in the tutorial), you should add a README.md to the chart directory and update Chart.yaml with artifact-hub specific metadata.  Its a good idea to provide quickstart instructions, quick configure instructions, as well as long-form parameter lists in your README.md.
 
 ### Packaging and Publishing your helm charts
 
